@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manohar Lal Thakur — Developer Portfolio</title>
+  <title>Manohar Lal Thakur — Portfolio</title>
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -44,7 +44,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(15, 17, 23, 0.85);
+      background: rgba(15, 17, 23, 0.9);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 0 2rem;
@@ -128,7 +128,7 @@
     }
 
     .hero-bio {
-      max-width: 540px;
+      max-width: 560px;
       color: var(--muted);
       margin-bottom: 2.5rem;
     }
@@ -163,7 +163,64 @@
       border: 1px solid var(--border);
     }
 
+    /* ── ABOUT ── */
+    .about-text {
+      color: var(--muted);
+      max-width: 620px;
+      margin-bottom: 1rem;
+    }
+
+    .edu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .edu-card h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .edu-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .edu-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .edu-badge {
+      font-size: 0.75rem;
+      background: var(--tag-bg);
+      color: var(--accent-light);
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+    }
+
     /* ── SKILLS ── */
+    .skills-category {
+      margin-bottom: 1.75rem;
+    }
+
+    .skills-category h3 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
     .skills-grid {
       display: flex;
       flex-wrap: wrap;
@@ -177,6 +234,11 @@
       padding: 0.35rem 0.9rem;
       border-radius: 6px;
       font-size: 0.85rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .skill-tag:hover {
+      border-color: var(--accent);
+      color: var(--text);
     }
 
     /* ── PROJECTS ── */
@@ -192,6 +254,8 @@
       border-radius: var(--radius);
       padding: 1.75rem;
       transition: border-color 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
     }
     .card:hover {
       border-color: var(--accent);
@@ -213,6 +277,7 @@
       font-size: 0.875rem;
       color: var(--muted);
       margin-bottom: 1.25rem;
+      flex: 1;
     }
 
     .card-tags {
@@ -271,6 +336,7 @@
       background: var(--tag-bg);
       padding: 0.2rem 0.6rem;
       border-radius: 4px;
+      white-space: nowrap;
     }
 
     .timeline-company {
@@ -279,9 +345,61 @@
       margin-bottom: 0.75rem;
     }
 
-    .timeline-desc {
-      color: var(--muted);
+    .timeline-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .timeline-bullets li {
       font-size: 0.875rem;
+      color: var(--muted);
+      padding-left: 1.1rem;
+      position: relative;
+    }
+
+    .timeline-bullets li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.75rem;
+      top: 0.15rem;
+    }
+
+    /* ── ACHIEVEMENTS ── */
+    .achievements-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .achievement-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .achievement-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .achievement-text h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .achievement-text p {
+      font-size: 0.875rem;
+      color: var(--muted);
     }
 
     /* ── CONTACT ── */
@@ -289,7 +407,7 @@
       text-align: center;
     }
 
-    #contact p {
+    #contact > p {
       color: var(--muted);
       max-width: 480px;
       margin: 0 auto 2rem;
@@ -298,7 +416,7 @@
     .social-links {
       display: flex;
       justify-content: center;
-      gap: 1.5rem;
+      gap: 1rem;
       flex-wrap: wrap;
     }
 
@@ -308,7 +426,7 @@
       gap: 0.5rem;
       color: var(--muted);
       font-size: 0.9rem;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 1.1rem;
       border: 1px solid var(--border);
       border-radius: 8px;
       transition: color 0.2s, border-color 0.2s;
@@ -332,6 +450,7 @@
     @media (max-width: 600px) {
       .nav-links { display: none; }
       .projects-grid { grid-template-columns: 1fr; }
+      .edu-meta { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
@@ -345,18 +464,20 @@
       <li><a href="#skills">Skills</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#experience">Experience</a></li>
+      <li><a href="#achievements">Achievements</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
   <!-- HERO -->
   <section id="hero">
-    <p class="hero-greeting">Hi there, I'm</p>
+    <p class="hero-greeting">Hi, I'm</p>
     <h1 class="hero-name">Manohar Lal<br /><span>Thakur</span></h1>
-    <p class="hero-title">Full-Stack Developer &amp; Cloud Engineer</p>
+    <p class="hero-title">ECE Undergrad &bull; ML &amp; Cloud Enthusiast</p>
     <p class="hero-bio">
-      I build performant, scalable web applications and cloud-native systems.
-      Passionate about clean code, great developer experience, and shipping things that matter.
+      B.Tech student at NIT Hamirpur building ML pipelines, cloud deployments, and
+      systems software. I enjoy working close to the problem — from packet-level
+      network analysis to AWS-deployed AI apps.
     </p>
     <div class="btn-group">
       <a class="btn btn-primary" href="#projects">View My Work</a>
@@ -368,37 +489,96 @@
   <section id="about">
     <p class="section-label">About</p>
     <h2>A bit about me</h2>
-    <p style="color: var(--muted); max-width: 600px; margin-bottom: 1rem;">
-      I'm a software developer with a focus on building reliable, well-tested applications
-      from front-end interfaces to back-end APIs and cloud infrastructure. I enjoy working
-      close to the full stack and care deeply about code quality and system design.
+    <p class="about-text">
+      I'm an Electronics and Communication Engineering undergraduate at NIT Hamirpur,
+      passionate about the intersection of machine learning, cloud infrastructure, and
+      systems programming. I've built RAG pipelines on AWS, trained ML classifiers for
+      network threat detection, and implemented graph-search algorithms in C++ — all from scratch.
     </p>
-    <p style="color: var(--muted); max-width: 600px;">
-      When I'm not coding, you'll find me exploring new technologies, contributing to
-      open source, or tinkering with side projects.
+    <p class="about-text">
+      Outside of projects, I've solved 500+ DSA problems and ranked in the top 1% globally
+      in a LeetCode Weekly Contest. I also served as Hostel Secretary, managing
+      administration and finances for a large hostel community.
     </p>
+
+    <div style="margin-top: 2rem;">
+      <p class="section-label" style="margin-bottom: 1rem;">Education</p>
+
+      <div class="edu-card">
+        <div class="edu-meta">
+          <h4>National Institute of Technology (NIT) Hamirpur</h4>
+          <span class="edu-badge">Aug 2023 – Present</span>
+        </div>
+        <p>B.Tech in Electronics and Communication Engineering &mdash; CGPA: 7.4 / 10.0</p>
+        <p style="font-size: 0.8rem; color: var(--accent-light); margin-top: 0.3rem;">Hamirpur, H.P.</p>
+      </div>
+
+      <div class="edu-card">
+        <div class="edu-meta">
+          <h4>Jawahar Navodaya Vidyalaya Shimla</h4>
+          <span class="edu-badge">2022</span>
+        </div>
+        <p>Higher Secondary Certificate (HSC) &mdash; Score: 82.6%</p>
+        <p style="font-size: 0.8rem; color: var(--accent-light); margin-top: 0.3rem;">Shimla, H.P.</p>
+      </div>
+    </div>
   </section>
 
   <!-- SKILLS -->
   <section id="skills">
     <p class="section-label">Skills</p>
     <h2>What I work with</h2>
-    <div class="skills-grid">
-      <span class="skill-tag">JavaScript</span>
-      <span class="skill-tag">TypeScript</span>
-      <span class="skill-tag">React</span>
-      <span class="skill-tag">Node.js</span>
-      <span class="skill-tag">Python</span>
-      <span class="skill-tag">HTML &amp; CSS</span>
-      <span class="skill-tag">AWS</span>
-      <span class="skill-tag">Docker</span>
-      <span class="skill-tag">PostgreSQL</span>
-      <span class="skill-tag">MongoDB</span>
-      <span class="skill-tag">REST APIs</span>
-      <span class="skill-tag">GraphQL</span>
-      <span class="skill-tag">Git</span>
-      <span class="skill-tag">CI/CD</span>
-      <span class="skill-tag">Linux</span>
+
+    <div class="skills-category">
+      <h3>Languages &amp; Databases</h3>
+      <div class="skills-grid">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">C</span>
+        <span class="skill-tag">C++</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">HTML / CSS</span>
+        <span class="skill-tag">SQL (PostgreSQL)</span>
+      </div>
+    </div>
+
+    <div class="skills-category">
+      <h3>AI &amp; Cloud</h3>
+      <div class="skills-grid">
+        <span class="skill-tag">RAG</span>
+        <span class="skill-tag">LangChain</span>
+        <span class="skill-tag">OpenAI API</span>
+        <span class="skill-tag">Scikit-learn</span>
+        <span class="skill-tag">Random Forest</span>
+        <span class="skill-tag">AWS EC2</span>
+        <span class="skill-tag">Amazon S3</span>
+        <span class="skill-tag">Google Cloud Platform</span>
+      </div>
+    </div>
+
+    <div class="skills-category">
+      <h3>Tools &amp; Frameworks</h3>
+      <div class="skills-grid">
+        <span class="skill-tag">Django</span>
+        <span class="skill-tag">Streamlit</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">VS Code</span>
+        <span class="skill-tag">PyCharm</span>
+      </div>
+    </div>
+
+    <div class="skills-category">
+      <h3>Libraries &amp; Fundamentals</h3>
+      <div class="skills-grid">
+        <span class="skill-tag">pandas</span>
+        <span class="skill-tag">NumPy</span>
+        <span class="skill-tag">Matplotlib</span>
+        <span class="skill-tag">Scapy</span>
+        <span class="skill-tag">DSA</span>
+        <span class="skill-tag">OOP</span>
+        <span class="skill-tag">Security Fundamentals</span>
+        <span class="skill-tag">Linux</span>
+      </div>
     </div>
   </section>
 
@@ -409,62 +589,65 @@
     <div class="projects-grid">
 
       <div class="card">
-        <div class="card-icon">🛒</div>
-        <h3>E-Commerce Platform</h3>
-        <p>A full-stack e-commerce app with product catalog, cart, and Stripe payments.</p>
-        <div class="card-tags">
-          <span class="card-tag">React</span>
-          <span class="card-tag">Node.js</span>
-          <span class="card-tag">PostgreSQL</span>
-        </div>
-        <div class="card-links">
-          <a href="#">GitHub</a>
-          <a href="#">Live Demo</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">☁️</div>
-        <h3>Serverless URL Shortener</h3>
-        <p>A high-performance URL shortener built on AWS Lambda, API Gateway, and DynamoDB.</p>
-        <div class="card-tags">
-          <span class="card-tag">AWS Lambda</span>
-          <span class="card-tag">DynamoDB</span>
-          <span class="card-tag">Python</span>
-        </div>
-        <div class="card-links">
-          <a href="#">GitHub</a>
-          <a href="#">Live Demo</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-icon">📊</div>
-        <h3>Real-Time Dashboard</h3>
-        <p>Metrics dashboard with live data streaming via WebSockets and Chart.js visualizations.</p>
-        <div class="card-tags">
-          <span class="card-tag">TypeScript</span>
-          <span class="card-tag">WebSockets</span>
-          <span class="card-tag">Chart.js</span>
-        </div>
-        <div class="card-links">
-          <a href="#">GitHub</a>
-          <a href="#">Live Demo</a>
-        </div>
-      </div>
-
-      <div class="card">
         <div class="card-icon">🤖</div>
-        <h3>CLI Dev Tool</h3>
-        <p>A command-line tool to scaffold projects, manage env configs, and automate repetitive tasks.</p>
+        <h3>RAG Pipeline on AWS</h3>
+        <p>
+          Retrieval-Augmented Generation pipeline that generates answers grounded in
+          retrieved documents using LangChain and the OpenAI API. Deployed on AWS with
+          EC2 for compute and S3 for storage, with a Streamlit interface.
+        </p>
         <div class="card-tags">
-          <span class="card-tag">Node.js</span>
-          <span class="card-tag">CLI</span>
-          <span class="card-tag">Shell</span>
+          <span class="card-tag">Python</span>
+          <span class="card-tag">LangChain</span>
+          <span class="card-tag">OpenAI API</span>
+          <span class="card-tag">AWS EC2</span>
+          <span class="card-tag">Amazon S3</span>
+          <span class="card-tag">Streamlit</span>
         </div>
         <div class="card-links">
-          <a href="#">GitHub</a>
-          <a href="#">npm</a>
+          <a href="#" aria-label="RAG Pipeline GitHub">GitHub</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🔐</div>
+        <h3>TLS Behavioral Profiling</h3>
+        <p>
+          Threat detection system that analyzes TLS handshake metadata without decrypting
+          payloads, achieving 96% accuracy. Extracts flow-level features from PCAP files
+          using Scapy to train a Random Forest classifier. Includes a Streamlit dashboard
+          for PCAP upload, prediction, and CSV export.
+        </p>
+        <div class="card-tags">
+          <span class="card-tag">Python</span>
+          <span class="card-tag">Scikit-learn</span>
+          <span class="card-tag">Scapy</span>
+          <span class="card-tag">Wireshark</span>
+          <span class="card-tag">Streamlit</span>
+        </div>
+        <div class="card-links">
+          <a href="https://github.com/manohar-lal-thakur" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🎲</div>
+        <h3>Rubik's Cube Solver</h3>
+        <p>
+          C++ solver using IDDFS and IDA* search with pattern-database heuristics, solving
+          any cube state in under 3 seconds. Traverses an 88-million-state space with a
+          corner pattern database featuring custom hashing and pruning. Modular OOP
+          framework supports 1D, 3D, and bitboard cube representations.
+        </p>
+        <div class="card-tags">
+          <span class="card-tag">C++</span>
+          <span class="card-tag">OOP</span>
+          <span class="card-tag">Graph Algorithms</span>
+          <span class="card-tag">IDA*</span>
+          <span class="card-tag">Git</span>
+        </div>
+        <div class="card-links">
+          <a href="https://github.com/manohar-lal-thakur" target="_blank" rel="noopener">GitHub</a>
         </div>
       </div>
 
@@ -479,38 +662,48 @@
 
       <div class="timeline-item">
         <div class="timeline-header">
-          <span class="timeline-role">Senior Full-Stack Developer</span>
-          <span class="timeline-date">2023 - Present</span>
+          <span class="timeline-role">Undergraduate Research Intern — TLS Behavioral Profiling</span>
+          <span class="timeline-date">18 May 2026 – 19 Jul 2026</span>
         </div>
-        <div class="timeline-company">Acme Tech Inc.</div>
-        <p class="timeline-desc">
-          Led development of customer-facing web apps and internal tooling. Architected
-          microservices on AWS and reduced deployment times by 60% through CI/CD improvements.
-        </p>
+        <div class="timeline-company">NIT Hamirpur &mdash; Threat Detection using Machine Learning</div>
+        <ul class="timeline-bullets">
+          <li>Automated packet parsing, feature extraction, prediction, and reporting workflows in Python to support repeatable analysis of encrypted network traffic.</li>
+          <li>Built a Random Forest classifier on flow-level TLS features to distinguish normal network activity from suspicious behavior without decrypting payloads.</li>
+          <li>Developed a Streamlit dashboard for interactive analysis, visualization, and CSV export of prediction results.</li>
+        </ul>
       </div>
 
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <span class="timeline-role">Software Engineer</span>
-          <span class="timeline-date">2021 - 2023</span>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements">
+    <p class="section-label">Achievements &amp; Leadership</p>
+    <h2>Highlights</h2>
+    <div class="achievements-list">
+
+      <div class="achievement-item">
+        <div class="achievement-icon">🏛️</div>
+        <div class="achievement-text">
+          <h4>Hostel Secretary — Himgiri Boys Hostel, NIT Hamirpur</h4>
+          <p>Managed hostel administration and finances, including budget reconciliation, expense tracking, resource allocation, and resolving discrepancies — comparable to mid-sized organizational finance management.</p>
         </div>
-        <div class="timeline-company">Startup Labs</div>
-        <p class="timeline-desc">
-          Built and maintained RESTful APIs and React frontends for a SaaS product serving
-          10k+ users. Contributed to cloud cost optimizations saving $40k/year.
-        </p>
       </div>
 
-      <div class="timeline-item">
-        <div class="timeline-header">
-          <span class="timeline-role">Junior Developer</span>
-          <span class="timeline-date">2019 - 2021</span>
+      <div class="achievement-item">
+        <div class="achievement-icon">🏆</div>
+        <div class="achievement-text">
+          <h4>LeetCode — Global Rank 1,370 in Weekly Contest 472</h4>
+          <p>Solved all four problems in LeetCode Weekly Contest 472, achieving a global rank of 1,370.</p>
         </div>
-        <div class="timeline-company">Freelance</div>
-        <p class="timeline-desc">
-          Delivered custom websites, landing pages, and small web apps for local businesses
-          and early-stage startups.
-        </p>
+      </div>
+
+      <div class="achievement-item">
+        <div class="achievement-icon">💡</div>
+        <div class="achievement-text">
+          <h4>500+ DSA Problems Solved</h4>
+          <p>Solved 500+ problems across LeetCode, GeeksforGeeks, and Codeforces, covering a broad range of data structures and algorithm topics.</p>
+        </div>
       </div>
 
     </div>
@@ -519,50 +712,38 @@
   <!-- CONTACT -->
   <section id="contact">
     <p class="section-label">Contact</p>
-    <h2>Let's work together</h2>
+    <h2>Let's connect</h2>
     <p>
-      Open to new opportunities, collaborations, and interesting projects.
-      Drop me a message - I'll get back to you quickly.
+      Open to internships, research collaborations, and interesting projects.
+      Feel free to reach out — I'll get back to you quickly.
     </p>
     <div class="btn-group" style="justify-content: center; margin-bottom: 2.5rem;">
-      <a class="btn btn-primary" href="mailto:hello@manohar.dev">Say Hello</a>
+      <a class="btn btn-primary" href="mailto:tsmile2459@gmail.com">Say Hello</a>
     </div>
     <div class="social-links">
-      <a class="social-link" href="https://github.com/" target="_blank" rel="noopener">
-        <!-- GitHub icon -->
+      <a class="social-link" href="mailto:tsmile2459@gmail.com">
         <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
-            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52
-            -.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2
-            -3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82
-            a7.65 7.65 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08
-            2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01
-            1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+          <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.708 2.825L15 11.105V5.383zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741zM1 11.105l4.708-2.897L1 5.383v5.722z"/>
+        </svg>
+        tsmile2459@gmail.com
+      </a>
+      <a class="social-link" href="https://github.com/manohar-lal-thakur" target="_blank" rel="noopener">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
         </svg>
         GitHub
       </a>
-      <a class="social-link" href="https://linkedin.com/" target="_blank" rel="noopener">
-        <!-- LinkedIn icon -->
+      <a class="social-link" href="https://linkedin.com/in/manohar-lal-thakur" target="_blank" rel="noopener">
         <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708
-            c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943
-            12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015
-            -.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248
-            1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878
-            1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252
-            -2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4
-            c.03.678 0 7.225 0 7.225h2.4z"/>
+          <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
         </svg>
         LinkedIn
       </a>
-      <a class="social-link" href="https://twitter.com/" target="_blank" rel="noopener">
-        <!-- X/Twitter icon -->
+      <a class="social-link" href="tel:+917807229629">
         <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425
-            5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36
-            L4.323 2.145H2.865z"/>
+          <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
         </svg>
-        Twitter
+        +91 78072 29629
       </a>
     </div>
   </section>
