@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manohar Lal Thakur — Portfolio</title>
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --bg: #0f1117;
@@ -17,6 +13,7 @@
       --border: #2a2d3e;
       --accent: #6c63ff;
       --accent-light: #8b85ff;
+      --accent-glow: rgba(108,99,255,0.35);
       --text: #e2e8f0;
       --muted: #94a3b8;
       --tag-bg: #1e2235;
@@ -31,21 +28,43 @@
       color: var(--text);
       font-family: var(--font);
       line-height: 1.7;
+      overflow-x: hidden;
     }
 
-    a {
-      color: var(--accent-light);
-      text-decoration: none;
-    }
+    a { color: var(--accent-light); text-decoration: none; }
     a:hover { text-decoration: underline; }
+
+    /* ── CURSOR GLOW ── */
+    #cursor-glow {
+      pointer-events: none;
+      position: fixed;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      transition: left 0.08s ease, top 0.08s ease;
+      z-index: 0;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 0;
+    }
 
     /* ── NAV ── */
     nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(15, 17, 23, 0.9);
-      backdrop-filter: blur(12px);
+      background: rgba(15,17,23,0.85);
+      backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
       padding: 0 2rem;
       display: flex;
@@ -55,33 +74,78 @@
     }
 
     .nav-logo {
-      font-weight: 700;
-      font-size: 1.1rem;
+      font-weight: 800;
+      font-size: 1.15rem;
       color: var(--text);
       letter-spacing: -0.5px;
+      transition: transform 0.3s;
     }
+    .nav-logo:hover { transform: scale(1.08); }
     .nav-logo span { color: var(--accent); }
 
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+
     .nav-links a {
       color: var(--muted);
       font-size: 0.9rem;
+      position: relative;
       transition: color 0.2s;
+      padding-bottom: 2px;
     }
-    .nav-links a:hover {
-      color: var(--text);
-      text-decoration: none;
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
     }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1),
+                  transform 0.7s cubic-bezier(0.4,0,0.2,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* stagger children */
+    .stagger > * { opacity: 0; transform: translateY(24px); }
+    .stagger.visible > * {
+      opacity: 1; transform: translateY(0);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .stagger.visible > *:nth-child(1) { transition-delay: 0.05s; }
+    .stagger.visible > *:nth-child(2) { transition-delay: 0.12s; }
+    .stagger.visible > *:nth-child(3) { transition-delay: 0.19s; }
+    .stagger.visible > *:nth-child(4) { transition-delay: 0.26s; }
+    .stagger.visible > *:nth-child(5) { transition-delay: 0.33s; }
 
     /* ── SECTIONS ── */
     section {
       max-width: 860px;
       margin: 0 auto;
       padding: 5rem 2rem;
+      position: relative;
+      z-index: 1;
     }
 
     .section-label {
@@ -101,15 +165,26 @@
     }
 
     /* ── HERO ── */
-    #hero {
-      padding-top: 8rem;
-      padding-bottom: 6rem;
-    }
+    #hero { padding-top: 8rem; padding-bottom: 6rem; }
 
     .hero-greeting {
       font-size: 1rem;
       color: var(--muted);
       margin-bottom: 0.75rem;
+      /* typewriter */
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid var(--accent);
+      width: 0;
+      animation: typewriter 1s steps(8) 0.3s forwards, blink 0.7s step-end 1.3s 4;
+    }
+
+    @keyframes typewriter {
+      from { width: 0; }
+      to   { width: 6.5ch; }
+    }
+    @keyframes blink {
+      50% { border-color: transparent; }
     }
 
     .hero-name {
@@ -118,6 +193,8 @@
       line-height: 1.1;
       letter-spacing: -1.5px;
       margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1s forwards;
     }
     .hero-name span { color: var(--accent); }
 
@@ -125,50 +202,81 @@
       font-size: 1.25rem;
       color: var(--muted);
       margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.2s forwards;
     }
 
     .hero-bio {
       max-width: 560px;
       color: var(--muted);
       margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.4s forwards;
     }
 
     .btn-group {
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.6s forwards;
     }
 
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── BUTTONS ── */
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.65rem 1.4rem;
+      padding: 0.65rem 1.5rem;
       border-radius: 8px;
       font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
-      transition: opacity 0.2s, transform 0.15s;
       border: none;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .btn:hover { opacity: 0.85; transform: translateY(-1px); text-decoration: none; }
+
+    /* ripple */
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: white;
+      opacity: 0;
+      border-radius: inherit;
+      transform: scale(0);
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+    .btn:active::after { transform: scale(2.5); opacity: 0.15; transition: 0s; }
+
+    .btn:hover { transform: translateY(-2px); text-decoration: none; }
 
     .btn-primary {
       background: var(--accent);
       color: #fff;
+      box-shadow: 0 4px 20px rgba(108,99,255,0.4);
     }
+    .btn-primary:hover { box-shadow: 0 6px 28px rgba(108,99,255,0.6); }
+
     .btn-outline {
       background: transparent;
       color: var(--text);
       border: 1px solid var(--border);
     }
+    .btn-outline:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 16px var(--accent-glow);
+    }
 
     /* ── ABOUT ── */
-    .about-text {
-      color: var(--muted);
-      max-width: 620px;
-      margin-bottom: 1rem;
-    }
+    .about-text { color: var(--muted); max-width: 620px; margin-bottom: 1rem; }
 
     .edu-card {
       background: var(--surface);
@@ -177,18 +285,16 @@
       border-radius: var(--radius);
       padding: 1.25rem 1.5rem;
       margin-top: 0.75rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+    }
+    .edu-card:hover {
+      transform: translateX(6px);
+      box-shadow: -4px 0 20px var(--accent-glow);
+      border-left-color: var(--accent-light);
     }
 
-    .edu-card h4 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      margin-bottom: 0.2rem;
-    }
-
-    .edu-card p {
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
+    .edu-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .edu-card p { font-size: 0.85rem; color: var(--muted); }
 
     .edu-meta {
       display: flex;
@@ -208,9 +314,7 @@
     }
 
     /* ── SKILLS ── */
-    .skills-category {
-      margin-bottom: 1.75rem;
-    }
+    .skills-category { margin-bottom: 1.75rem; }
 
     .skills-category h3 {
       font-size: 0.8rem;
@@ -221,11 +325,7 @@
       margin-bottom: 0.75rem;
     }
 
-    .skills-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-    }
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 
     .skill-tag {
       background: var(--tag-bg);
@@ -234,44 +334,65 @@
       padding: 0.35rem 0.9rem;
       border-radius: 6px;
       font-size: 0.85rem;
-      transition: border-color 0.2s, color 0.2s;
+      cursor: default;
+      transition: border-color 0.25s, color 0.25s, transform 0.25s, box-shadow 0.25s;
     }
     .skill-tag:hover {
       border-color: var(--accent);
       color: var(--text);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 18px var(--accent-glow);
     }
 
     /* ── PROJECTS ── */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
       gap: 1.25rem;
     }
 
+    /* 3-D tilt card */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 1.75rem;
-      transition: border-color 0.2s, transform 0.2s;
       display: flex;
       flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      transform-style: preserve-3d;
+      will-change: transform;
     }
+
+    /* shimmer on hover */
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(108,99,255,0.08) 100%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+      border-radius: inherit;
+    }
+    .card:hover::before { opacity: 1; }
+
     .card:hover {
       border-color: var(--accent);
-      transform: translateY(-3px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px var(--accent-glow);
     }
 
     .card-icon {
       font-size: 1.75rem;
       margin-bottom: 1rem;
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
     }
+    .card:hover .card-icon { transform: rotate(-8deg) scale(1.2); }
 
-    .card h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
+    .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
 
     .card p {
       font-size: 0.875rem;
@@ -280,12 +401,7 @@
       flex: 1;
     }
 
-    .card-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-bottom: 1.25rem;
-    }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
 
     .card-tag {
       background: var(--tag-bg);
@@ -293,20 +409,14 @@
       font-size: 0.75rem;
       padding: 0.2rem 0.6rem;
       border-radius: 4px;
+      transition: background 0.2s, transform 0.2s;
     }
+    .card-tag:hover { background: var(--accent); color: #fff; transform: scale(1.05); }
 
-    .card-links {
-      display: flex;
-      gap: 1rem;
-      font-size: 0.85rem;
-    }
+    .card-links { display: flex; gap: 1rem; font-size: 0.85rem; }
 
-    /* ── EXPERIENCE ── */
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+    /* ── EXPERIENCE TIMELINE ── */
+    .timeline { display: flex; flex-direction: column; gap: 1.5rem; }
 
     .timeline-item {
       background: var(--surface);
@@ -314,6 +424,23 @@
       border-left: 3px solid var(--accent);
       border-radius: var(--radius);
       padding: 1.5rem 1.75rem;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      left: -3px; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent-light));
+      border-radius: 3px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .timeline-item:hover::after { opacity: 1; }
+    .timeline-item:hover {
+      transform: translateX(6px);
+      box-shadow: -6px 0 24px var(--accent-glow);
     }
 
     .timeline-header {
@@ -325,10 +452,7 @@
       margin-bottom: 0.5rem;
     }
 
-    .timeline-role {
-      font-weight: 700;
-      font-size: 1rem;
-    }
+    .timeline-role { font-weight: 700; font-size: 1rem; }
 
     .timeline-date {
       font-size: 0.8rem;
@@ -345,20 +469,15 @@
       margin-bottom: 0.75rem;
     }
 
-    .timeline-bullets {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
+    .timeline-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
 
     .timeline-bullets li {
       font-size: 0.875rem;
       color: var(--muted);
       padding-left: 1.1rem;
       position: relative;
+      transition: color 0.2s, padding-left 0.2s;
     }
-
     .timeline-bullets li::before {
       content: '▸';
       position: absolute;
@@ -366,14 +485,13 @@
       color: var(--accent);
       font-size: 0.75rem;
       top: 0.15rem;
+      transition: transform 0.2s;
     }
+    .timeline-item:hover .timeline-bullets li { color: var(--text); padding-left: 1.4rem; }
+    .timeline-item:hover .timeline-bullets li::before { transform: translateX(3px); }
 
     /* ── ACHIEVEMENTS ── */
-    .achievements-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+    .achievements-list { display: flex; flex-direction: column; gap: 1rem; }
 
     .achievement-item {
       background: var(--surface);
@@ -383,35 +501,28 @@
       display: flex;
       gap: 1rem;
       align-items: flex-start;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s, border-color 0.3s;
+    }
+    .achievement-item:hover {
+      transform: scale(1.02) translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px var(--accent-glow);
+      border-color: var(--accent);
     }
 
     .achievement-icon {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       flex-shrink: 0;
       margin-top: 0.1rem;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
     }
+    .achievement-item:hover .achievement-icon { transform: rotate(15deg) scale(1.25); }
 
-    .achievement-text h4 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
-
-    .achievement-text p {
-      font-size: 0.875rem;
-      color: var(--muted);
-    }
+    .achievement-text h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .achievement-text p { font-size: 0.875rem; color: var(--muted); }
 
     /* ── CONTACT ── */
-    #contact {
-      text-align: center;
-    }
-
-    #contact > p {
-      color: var(--muted);
-      max-width: 480px;
-      margin: 0 auto 2rem;
-    }
+    #contact { text-align: center; }
+    #contact > p { color: var(--muted); max-width: 480px; margin: 0 auto 2rem; }
 
     .social-links {
       display: flex;
@@ -429,13 +540,17 @@
       padding: 0.5rem 1.1rem;
       border: 1px solid var(--border);
       border-radius: 8px;
-      transition: color 0.2s, border-color 0.2s;
+      transition: color 0.25s, border-color 0.25s, transform 0.25s, box-shadow 0.25s;
     }
     .social-link:hover {
       color: var(--text);
       border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px var(--accent-glow);
       text-decoration: none;
     }
+    .social-link svg { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+    .social-link:hover svg { transform: scale(1.25) rotate(-8deg); }
 
     /* ── FOOTER ── */
     footer {
@@ -444,7 +559,46 @@
       color: var(--muted);
       font-size: 0.8rem;
       border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
     }
+
+    /* ── SCROLL PROGRESS BAR ── */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(to right, var(--accent), var(--accent-light));
+      z-index: 200;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 8px var(--accent);
+    }
+
+    /* ── BACK TO TOP ── */
+    #back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 42px;
+      height: 42px;
+      background: var(--accent);
+      border: none;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
+      z-index: 99;
+      box-shadow: 0 4px 20px rgba(108,99,255,0.5);
+    }
+    #back-to-top.show { opacity: 1; transform: translateY(0); }
+    #back-to-top:hover { box-shadow: 0 6px 28px rgba(108,99,255,0.8); transform: translateY(-3px); }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
@@ -455,6 +609,15 @@
   </style>
 </head>
 <body>
+
+  <!-- SCROLL PROGRESS -->
+  <div id="progress-bar"></div>
+
+  <!-- CURSOR GLOW -->
+  <div id="cursor-glow"></div>
+
+  <!-- BACK TO TOP -->
+  <button id="back-to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
   <!-- NAV -->
   <nav>
@@ -487,51 +650,51 @@
 
   <!-- ABOUT -->
   <section id="about">
-    <p class="section-label">About</p>
-    <h2>A bit about me</h2>
-    <p class="about-text">
+    <p class="section-label reveal">About</p>
+    <h2 class="reveal">A bit about me</h2>
+    <p class="about-text reveal">
       I'm an Electronics and Communication Engineering undergraduate at NIT Hamirpur,
       passionate about the intersection of machine learning, cloud infrastructure, and
       systems programming. I've built RAG pipelines on AWS, trained ML classifiers for
       network threat detection, and implemented graph-search algorithms in C++ — all from scratch.
     </p>
-    <p class="about-text">
+    <p class="about-text reveal">
       Outside of projects, I've solved 500+ DSA problems and ranked in the top 1% globally
       in a LeetCode Weekly Contest. I also served as Hostel Secretary, managing
       administration and finances for a large hostel community.
     </p>
 
     <div style="margin-top: 2rem;">
-      <p class="section-label" style="margin-bottom: 1rem;">Education</p>
+      <p class="section-label reveal" style="margin-bottom: 1rem;">Education</p>
 
-      <div class="edu-card">
+      <div class="edu-card reveal-left">
         <div class="edu-meta">
           <h4>National Institute of Technology (NIT) Hamirpur</h4>
           <span class="edu-badge">Aug 2023 – Present</span>
         </div>
         <p>B.Tech in Electronics and Communication Engineering &mdash; CGPA: 7.4 / 10.0</p>
-        <p style="font-size: 0.8rem; color: var(--accent-light); margin-top: 0.3rem;">Hamirpur, H.P.</p>
+        <p style="font-size:0.8rem;color:var(--accent-light);margin-top:0.3rem;">Hamirpur, H.P.</p>
       </div>
 
-      <div class="edu-card">
+      <div class="edu-card reveal-right" style="transition-delay:0.15s">
         <div class="edu-meta">
           <h4>Jawahar Navodaya Vidyalaya Shimla</h4>
           <span class="edu-badge">2022</span>
         </div>
         <p>Higher Secondary Certificate (HSC) &mdash; Score: 82.6%</p>
-        <p style="font-size: 0.8rem; color: var(--accent-light); margin-top: 0.3rem;">Shimla, H.P.</p>
+        <p style="font-size:0.8rem;color:var(--accent-light);margin-top:0.3rem;">Shimla, H.P.</p>
       </div>
     </div>
   </section>
 
   <!-- SKILLS -->
   <section id="skills">
-    <p class="section-label">Skills</p>
-    <h2>What I work with</h2>
+    <p class="section-label reveal">Skills</p>
+    <h2 class="reveal">What I work with</h2>
 
-    <div class="skills-category">
+    <div class="skills-category reveal">
       <h3>Languages &amp; Databases</h3>
-      <div class="skills-grid">
+      <div class="skills-grid stagger">
         <span class="skill-tag">Python</span>
         <span class="skill-tag">C</span>
         <span class="skill-tag">C++</span>
@@ -541,9 +704,9 @@
       </div>
     </div>
 
-    <div class="skills-category">
+    <div class="skills-category reveal">
       <h3>AI &amp; Cloud</h3>
-      <div class="skills-grid">
+      <div class="skills-grid stagger">
         <span class="skill-tag">RAG</span>
         <span class="skill-tag">LangChain</span>
         <span class="skill-tag">OpenAI API</span>
@@ -555,9 +718,9 @@
       </div>
     </div>
 
-    <div class="skills-category">
+    <div class="skills-category reveal">
       <h3>Tools &amp; Frameworks</h3>
-      <div class="skills-grid">
+      <div class="skills-grid stagger">
         <span class="skill-tag">Django</span>
         <span class="skill-tag">Streamlit</span>
         <span class="skill-tag">Git</span>
@@ -567,9 +730,9 @@
       </div>
     </div>
 
-    <div class="skills-category">
+    <div class="skills-category reveal">
       <h3>Libraries &amp; Fundamentals</h3>
-      <div class="skills-grid">
+      <div class="skills-grid stagger">
         <span class="skill-tag">pandas</span>
         <span class="skill-tag">NumPy</span>
         <span class="skill-tag">Matplotlib</span>
@@ -584,11 +747,11 @@
 
   <!-- PROJECTS -->
   <section id="projects">
-    <p class="section-label">Projects</p>
-    <h2>Things I've built</h2>
+    <p class="section-label reveal">Projects</p>
+    <h2 class="reveal">Things I've built</h2>
     <div class="projects-grid">
 
-      <div class="card">
+      <div class="card reveal">
         <div class="card-icon">🤖</div>
         <h3>RAG Pipeline on AWS</h3>
         <p>
@@ -609,7 +772,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card reveal" style="transition-delay:0.1s">
         <div class="card-icon">🔐</div>
         <h3>TLS Behavioral Profiling</h3>
         <p>
@@ -630,7 +793,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card reveal" style="transition-delay:0.2s">
         <div class="card-icon">🎲</div>
         <h3>Rubik's Cube Solver</h3>
         <p>
@@ -656,11 +819,11 @@
 
   <!-- EXPERIENCE -->
   <section id="experience">
-    <p class="section-label">Experience</p>
-    <h2>Where I've worked</h2>
+    <p class="section-label reveal">Experience</p>
+    <h2 class="reveal">Where I've worked</h2>
     <div class="timeline">
 
-      <div class="timeline-item">
+      <div class="timeline-item reveal">
         <div class="timeline-header">
           <span class="timeline-role">Undergraduate Research Intern — TLS Behavioral Profiling</span>
           <span class="timeline-date">18 May 2026 – 19 Jul 2026</span>
@@ -678,11 +841,11 @@
 
   <!-- ACHIEVEMENTS -->
   <section id="achievements">
-    <p class="section-label">Achievements &amp; Leadership</p>
-    <h2>Highlights</h2>
+    <p class="section-label reveal">Achievements &amp; Leadership</p>
+    <h2 class="reveal">Highlights</h2>
     <div class="achievements-list">
 
-      <div class="achievement-item">
+      <div class="achievement-item reveal-left">
         <div class="achievement-icon">🏛️</div>
         <div class="achievement-text">
           <h4>Hostel Secretary — Himgiri Boys Hostel, NIT Hamirpur</h4>
@@ -690,7 +853,7 @@
         </div>
       </div>
 
-      <div class="achievement-item">
+      <div class="achievement-item reveal-left" style="transition-delay:0.1s">
         <div class="achievement-icon">🏆</div>
         <div class="achievement-text">
           <h4>LeetCode — Global Rank 1,370 in Weekly Contest 472</h4>
@@ -698,7 +861,7 @@
         </div>
       </div>
 
-      <div class="achievement-item">
+      <div class="achievement-item reveal-left" style="transition-delay:0.2s">
         <div class="achievement-icon">💡</div>
         <div class="achievement-text">
           <h4>500+ DSA Problems Solved</h4>
@@ -711,16 +874,16 @@
 
   <!-- CONTACT -->
   <section id="contact">
-    <p class="section-label">Contact</p>
-    <h2>Let's connect</h2>
-    <p>
+    <p class="section-label reveal">Contact</p>
+    <h2 class="reveal">Let's connect</h2>
+    <p class="reveal">
       Open to internships, research collaborations, and interesting projects.
       Feel free to reach out — I'll get back to you quickly.
     </p>
-    <div class="btn-group" style="justify-content: center; margin-bottom: 2.5rem;">
+    <div class="btn-group reveal" style="justify-content:center;margin-bottom:2.5rem;">
       <a class="btn btn-primary" href="mailto:tsmile2459@gmail.com">Say Hello</a>
     </div>
-    <div class="social-links">
+    <div class="social-links reveal">
       <a class="social-link" href="mailto:tsmile2459@gmail.com">
         <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
           <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.708 2.825L15 11.105V5.383zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741zM1 11.105l4.708-2.897L1 5.383v5.722z"/>
@@ -753,5 +916,73 @@
     <p>Designed &amp; built by Manohar Lal Thakur &copy; 2026</p>
   </footer>
 
+  <script>
+    // ── CURSOR GLOW ──
+    const glow = document.getElementById('cursor-glow');
+    document.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top  = e.clientY + 'px';
+    });
+
+    // ── SCROLL PROGRESS ──
+    const bar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+      const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+      bar.style.width = pct + '%';
+    }, { passive: true });
+
+    // ── BACK TO TOP ──
+    const btn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      btn.classList.toggle('show', window.scrollY > 400);
+    }, { passive: true });
+
+    // ── SCROLL REVEAL (IntersectionObserver) ──
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .stagger');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+
+    // ── 3-D TILT ON PROJECT CARDS ──
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width  - 0.5;  // -0.5 to 0.5
+        const y = (e.clientY - rect.top)  / rect.height - 0.5;
+        card.style.transform = `perspective(600px) rotateY(${x * 14}deg) rotateX(${-y * 14}deg) scale(1.03)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transition = 'transform 0.5s ease, border-color 0.3s, box-shadow 0.3s';
+        card.style.transform = 'perspective(600px) rotateY(0deg) rotateX(0deg) scale(1)';
+        setTimeout(() => card.style.transition = '', 500);
+      });
+    });
+
+    // ── TOPPLE EFFECT ON ACHIEVEMENT ITEMS ──
+    document.querySelectorAll('.achievement-item').forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        item.style.transition = 'transform 0.5s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s, border-color 0.3s';
+      });
+    });
+
+    // ── NAV ACTIVE HIGHLIGHT ──
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(sec => {
+        if (window.scrollY >= sec.offsetTop - 100) current = sec.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--text)' : '';
+      });
+    }, { passive: true });
+  </script>
 </body>
 </html>
